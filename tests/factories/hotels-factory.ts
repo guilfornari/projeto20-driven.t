@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker';
 import { prisma } from '@/config';
 
-export async function createTicketTypeRemote() {
+export function createTicketTypeRemote() {
     return prisma.ticketType.create({
         data: {
             name: faker.name.findName(),
@@ -12,7 +12,7 @@ export async function createTicketTypeRemote() {
     });
 }
 
-export async function createTicketTypeNoHotel() {
+export function createTicketTypeNoHotel() {
     return prisma.ticketType.create({
         data: {
             name: faker.name.findName(),
@@ -23,7 +23,7 @@ export async function createTicketTypeNoHotel() {
     });
 }
 
-export async function createTicketTypeCorrect() {
+export function createTicketTypeCorrect() {
     return prisma.ticketType.create({
         data: {
             name: faker.name.findName(),
@@ -34,7 +34,7 @@ export async function createTicketTypeCorrect() {
     });
 }
 
-export async function createHotels() {
+export function createHotels() {
     return prisma.hotel.createMany({
         data: [
             {
@@ -44,6 +44,27 @@ export async function createHotels() {
             {
                 name: faker.name.findName(),
                 image: faker.image.business(),
+            }
+        ]
+    });
+}
+
+export function getHotelsToTest() {
+    return prisma.hotel.findMany();
+}
+
+export function createRooms(hotelId: number) {
+    return prisma.room.createMany({
+        data: [
+            {
+                name: faker.datatype.string(3),
+                capacity: faker.datatype.number({ min: 1, max: 5, precision: 1 }),
+                hotelId
+            },
+            {
+                name: faker.datatype.string(3),
+                capacity: faker.datatype.number({ min: 1, max: 5, precision: 1 }),
+                hotelId
             }
         ]
     });
