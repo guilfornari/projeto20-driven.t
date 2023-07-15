@@ -8,7 +8,7 @@ import { notValidTicketError } from '../../errors/not-valid-ticket-error';
 async function getHotels(userId: number): Promise<Hotel[]> {
 
     const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-    if (!enrollment.id) throw notFoundError();
+    if (!enrollment) throw notFoundError();
 
     const userTicket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
     if (!userTicket) throw notFoundError();
@@ -18,7 +18,7 @@ async function getHotels(userId: number): Promise<Hotel[]> {
     if (userTicket.TicketType.includesHotel === false) throw notValidTicketError();
 
     const hotelsList = await hotelsRepositories.getHotels();
-    if (!hotelsList) throw notFoundError();
+    if (hotelsList.length === 0) throw notFoundError();
 
     return hotelsList;
 }
