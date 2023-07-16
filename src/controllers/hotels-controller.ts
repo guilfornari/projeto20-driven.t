@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import httpStatus, { REQUEST_HEADER_FIELDS_TOO_LARGE } from 'http-status';
+import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import hotelsService from '../services/hotels-service';
 

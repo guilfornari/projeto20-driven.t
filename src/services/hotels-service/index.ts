@@ -4,7 +4,6 @@ import { Hotel } from '@prisma/client';
 import ticketsRepository from '../../repositories/tickets-repository';
 import enrollmentRepository from '../../repositories/enrollment-repository';
 import { notValidTicketError } from '../../errors/not-valid-ticket-error';
-import { HotelWithRooms } from '../../protocols';
 
 async function getHotels(userId: number): Promise<Hotel[]> {
 

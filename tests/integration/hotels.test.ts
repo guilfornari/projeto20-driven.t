@@ -24,6 +24,10 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+    await prisma.room.deleteMany({});
+});
+
+beforeEach(async () => {
     await prisma.hotel.deleteMany({});
 });
 
@@ -142,15 +146,6 @@ describe("When getting a Hotel with its rooms", () => {
         const { status } = await server.get("/hotels/1").set('Authorization', `Bearer ${token}`);
         expect(status).toEqual(httpStatus.UNAUTHORIZED);
 
-    });
-
-    it('Replies with status 401/Unauthorized if there is no session for given token', async () => {
-        const userWithoutSession = await createUser();
-        const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
-
-        const response = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
-
-        expect(response.status).toEqual(httpStatus.UNAUTHORIZED);
     });
 
     it('Replies with status 401/Unauthorized if there is no session for given token', async () => {
