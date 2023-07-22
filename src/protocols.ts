@@ -1,4 +1,4 @@
-import { Payment, Ticket } from '@prisma/client';
+import { Booking, Payment, Ticket } from '@prisma/client';
 
 export type ApplicationError = {
   name: string;
@@ -93,3 +93,5 @@ export type BookingWithRooms = {
     updatedAt: Date;
   }
 };
+
+export type BookingParams = Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>;

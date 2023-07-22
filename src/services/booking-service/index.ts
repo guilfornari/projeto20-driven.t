@@ -1,6 +1,10 @@
 import { notFoundError } from "../../errors";
 import bookingRepositories from "../../repositories/booking-repository";
 import { BookingWithRooms } from "../../protocols";
+import hotelsRepositories from "../../repositories/hotels-repository";
+import enrollmentRepository from "../../repositories/enrollment-repository";
+import ticketsRepository from "../../repositories/tickets-repository";
+import { notValidTicketError } from "../../errors/not-valid-ticket-error";
 
 async function getBookings(): Promise<BookingWithRooms[]> {
 
@@ -10,6 +14,29 @@ async function getBookings(): Promise<BookingWithRooms[]> {
     return bookings;
 }
 
-const bookingService = { getBookings };
+async function makeBooking(roomId: number, userId: number) {
 
+    const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+    if (!enrollment) throw notFoundError();
+
+    const userTicket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
+    if (!userTicket) throw notFoundError();
+
+    if (userTicket.TicketType.isRemote === true) throw notValidTicketError();
+    if (userTicket.status === 'RESERVED') throw notValidTicketError();
+    if (userTicket.TicketType.includesHotel === false) throw notValidTicketError();
+
+    const room = await hotelsRepositories.getRoomById(roomId);
+    if (!room.id) throw notFoundError();
+
+    const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
+
+    if (room.capacity === roomBookings) throw notValidTicketError();
+
+    const booking = await bookingRepositories.makeBooking(roomId, userId);
+
+    return booking;
+}
+
+const bookingService = { getBookings, makeBooking };
 export default bookingService;
