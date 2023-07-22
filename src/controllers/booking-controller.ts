@@ -35,10 +35,12 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response) {
     const bookingId = Number(req.params);
 
     try {
-        const booking = await bookingService.updateBooking(roomId, bookingId);
-        return res.status(httpStatus.OK).send(booking);
+        const booking = await bookingService.updateBooking(roomId, bookingId, userId);
+        return res.status(httpStatus.OK).send(booking.id);
 
     } catch (error) {
+        if (error.name === 'NotValidTicketError') return res.sendStatus(httpStatus.FORBIDDEN);
+        if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
 
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }

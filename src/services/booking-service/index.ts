@@ -38,9 +38,15 @@ async function makeBooking(roomId: number, userId: number) {
     return booking;
 }
 
-async function updateBooking(roomId: number, bookingId: number) {
+async function updateBooking(roomId: number, bookingId: number, userId: number) {
 
-    const booking = await bookingRepositories.updateBooking(roomId, bookingId)
+    const userBooking = await bookingRepositories.getBookingsByUserId(userId);
+    if (!userBooking) throw notValidTicketError();
+
+    const room = await hotelsRepositories.getRoomById(roomId);
+    if (!room) throw notFoundError();
+
+    const booking = await bookingRepositories.updateBooking(roomId, bookingId);
 
     return booking;
 }
