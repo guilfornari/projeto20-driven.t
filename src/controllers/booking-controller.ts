@@ -40,7 +40,7 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response) {
         return res.status(httpStatus.OK).send(booking);
 
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         if (error.name === 'NotValidTicketError') return res.sendStatus(httpStatus.FORBIDDEN);
         if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
 
