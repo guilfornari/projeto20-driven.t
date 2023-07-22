@@ -23,5 +23,9 @@ async function getBookingsByRoomId(roomId: number) {
     });
 }
 
-const bookingRepositories = { getBookings, makeBooking, getBookingsByRoomId };
+async function updateBooking(roomId: number, bookingId: number) {
+    return prisma
+}
+
+const bookingRepositories = { getBookings, makeBooking, getBookingsByRoomId, updateBooking };
 export default bookingRepositories;

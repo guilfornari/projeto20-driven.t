@@ -27,7 +27,7 @@ async function makeBooking(roomId: number, userId: number) {
     if (userTicket.TicketType.includesHotel === false) throw notValidTicketError();
 
     const room = await hotelsRepositories.getRoomById(roomId);
-    if (!room.id) throw notFoundError();
+    if (!room) throw notFoundError();
 
     const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
 
@@ -38,5 +38,12 @@ async function makeBooking(roomId: number, userId: number) {
     return booking;
 }
 
-const bookingService = { getBookings, makeBooking };
+async function updateBooking(roomId: number, bookingId: number) {
+
+    const booking = await bookingRepositories.updateBooking(roomId, bookingId)
+
+    return booking;
+}
+
+const bookingService = { getBookings, makeBooking, updateBooking };
 export default bookingService;
