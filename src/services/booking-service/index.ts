@@ -46,6 +46,9 @@ async function updateBooking(roomId: number, bookingId: number, userId: number) 
     const room = await hotelsRepositories.getRoomById(roomId);
     if (!room) throw notFoundError();
 
+    const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
+    if (room.capacity === roomBookings.length) throw notValidTicketError();
+
     const booking = await bookingRepositories.updateBooking(roomId, bookingId);
 
     return booking;
