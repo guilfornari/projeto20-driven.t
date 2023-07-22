@@ -69,3 +69,7 @@ export function createRooms(hotelId: number) {
     ],
   });
 }
+
+export function getRooms() {
+  return prisma.room.findMany();
+}
