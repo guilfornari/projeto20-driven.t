@@ -1,4 +1,3 @@
-import { Booking } from '@prisma/client';
 import { prisma } from '@/config';
 import { BookingWithRooms } from '../../protocols';
 
