@@ -82,28 +82,22 @@ describe('PUT /booking/:bookingId', () => {
 
         const user = await createUser();
         const token = await generateValidToken(user);
-        const enrollment = await createEnrollmentWithAddress(user);
-        const ticketType = await createTicketTypeCorrect();
-        await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
         await createHotels();
         const hotels = await getHotelsToTest();
         const hotelId = hotels[0].id;
         await createRooms(hotelId);
         const rooms = await getRooms();
         const roomId = rooms[0].id;
-        await createBookings(user.id, roomId);
-        const booking = await getBookingsTest(user.id);
-        console.log({ roomId });
+        const booking = await createBookings(user.id, roomId);
 
         const response = await server.put(`/booking/${booking.id}`)
             .set('Authorization', `Bearer ${token}`)
             .send({ roomId });
-        console.log(response.body);
 
         expect(response.status).toEqual(httpStatus.OK);
         expect(response.body).toEqual(
             expect.objectContaining({
-                roomId: expect.any(Number)
+                bookingId: expect.any(Number)
             })
         );
     });

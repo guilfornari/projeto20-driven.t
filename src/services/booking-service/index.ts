@@ -1,6 +1,6 @@
 import { notFoundError } from "../../errors";
 import bookingRepositories from "../../repositories/booking-repository";
-import { BookingWithRooms } from "../../protocols";
+import { BookingParams, BookingWithRooms } from "../../protocols";
 import hotelsRepositories from "../../repositories/hotels-repository";
 import enrollmentRepository from "../../repositories/enrollment-repository";
 import ticketsRepository from "../../repositories/tickets-repository";
@@ -49,13 +49,16 @@ async function updateBooking(roomId: number, bookingId: number, userId: number) 
     if (!room) throw notFoundError();
 
     const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
-    if (room.capacity <= roomBookings.length) throw notValidTicketError();
+    if (room.capacity === roomBookings.length) throw notValidTicketError();
 
-    await bookingRepositories.updateBooking(roomId, bookingId);
+    const updateBooking: BookingParams = {
+        userId,
+        roomId: room.id
+    }
 
+    await bookingRepositories.updateBooking(updateBooking, bookingId);
     const booking = await bookingRepositories.getBookingByUserId(userId);
-
-    return { roomId: booking.roomId };
+    return { bookingId: booking.id };
 }
 
 const bookingService = { getBookings, makeBooking, updateBooking };

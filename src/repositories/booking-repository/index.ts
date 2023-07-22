@@ -1,5 +1,6 @@
 import { prisma } from '@/config';
 import { BookingParams, BookingWithRooms } from '../../protocols';
+import { Booking } from '@prisma/client';
 
 async function getBookings(): Promise<BookingWithRooms[]> {
     return prisma.booking.findMany({
@@ -23,23 +24,16 @@ async function getBookingsByRoomId(roomId: number) {
     });
 }
 
-async function updateBooking(roomId: number, bookingId: number) {
+async function updateBooking(updateBooking: BookingParams, bookingId: number) {
     return prisma.booking.update({
-        where: { id: bookingId },
-        data: { roomId }
+        data: updateBooking,
+        where: { id: bookingId }
     });
 }
 
-async function getBookingByUserId(userId: number) {
+async function getBookingByUserId(userId: number): Promise<Booking> {
     return prisma.booking.findFirst({
         where: { userId },
-        select: {
-            id: true,
-            userId: false,
-            roomId: true,
-            createdAt: false,
-            updatedAt: false
-        }
     });
 }
 

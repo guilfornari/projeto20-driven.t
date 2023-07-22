@@ -58,7 +58,7 @@ export function createRooms(hotelId: number) {
     data: [
       {
         name: faker.datatype.string(3),
-        capacity: faker.datatype.number({ min: 1, max: 5, precision: 1 }),
+        capacity: faker.datatype.number({ min: 3, max: 5, precision: 1 }),
         hotelId,
       },
       {
