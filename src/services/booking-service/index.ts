@@ -35,14 +35,14 @@ async function makeBooking(roomId: number, userId: number) {
 
     await bookingRepositories.makeBooking(roomId, userId);
 
-    const booking = await bookingRepositories.getBookingsByUserId(userId);
+    const booking = await bookingRepositories.getBookingByUserId(userId);
 
-    return booking;
+    return { bookingId: booking.id }
 }
 
 async function updateBooking(roomId: number, bookingId: number, userId: number) {
 
-    const userBooking = await bookingRepositories.getBookingsByUserId(userId);
+    const userBooking = await bookingRepositories.getBookingByUserId(userId);
     if (!userBooking) throw notValidTicketError();
 
     const room = await hotelsRepositories.getRoomById(roomId);
@@ -53,9 +53,9 @@ async function updateBooking(roomId: number, bookingId: number, userId: number) 
 
     await bookingRepositories.updateBooking(roomId, bookingId);
 
-    const booking = await bookingRepositories.getBookingsByUserId(userId);
+    const booking = await bookingRepositories.getBookingByUserId(userId);
 
-    return booking;
+    return { roomId: booking.roomId };
 }
 
 const bookingService = { getBookings, makeBooking, updateBooking };

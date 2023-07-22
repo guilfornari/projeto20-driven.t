@@ -9,3 +9,9 @@ export function createBookings(userId: number, roomId: number) {
         }
     });
 };
+
+export function getBookingsTest(userId: number) {
+    return prisma.booking.findFirst({
+        where: { userId }
+    });
+};
