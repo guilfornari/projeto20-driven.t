@@ -19,7 +19,7 @@ async function makeBooking(roomId: number, userId: number): Promise<Booking> {
 }
 
 async function getBookingsByRoomId(roomId: number) {
-    return prisma.booking.count({
+    return prisma.booking.findMany({
         where: { id: roomId }
     });
 }
