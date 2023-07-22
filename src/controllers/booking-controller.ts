@@ -20,7 +20,7 @@ export async function makeBooking(req: AuthenticatedRequest, res: Response) {
 
     try {
         const booking = await bookingService.makeBooking(roomId, userId);
-        return res.status(httpStatus.OK).send(booking.id);
+        return res.status(httpStatus.OK).send(booking);
     } catch (error) {
         if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
         if (error.name === 'NotValidTicketError') return res.sendStatus(httpStatus.FORBIDDEN);
@@ -36,7 +36,7 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response) {
 
     try {
         const booking = await bookingService.updateBooking(roomId, bookingId, userId);
-        return res.status(httpStatus.OK).send(booking.id);
+        return res.status(httpStatus.OK).send(booking);
 
     } catch (error) {
         if (error.name === 'NotValidTicketError') return res.sendStatus(httpStatus.FORBIDDEN);

@@ -31,7 +31,7 @@ async function makeBooking(roomId: number, userId: number) {
 
     const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
 
-    if (room.capacity === roomBookings.length) throw notValidTicketError();
+    if (room.capacity <= roomBookings.length) throw notValidTicketError();
 
     await bookingRepositories.makeBooking(roomId, userId);
 
@@ -49,7 +49,7 @@ async function updateBooking(roomId: number, bookingId: number, userId: number) 
     if (!room) throw notFoundError();
 
     const roomBookings = await bookingRepositories.getBookingsByRoomId(roomId);
-    if (room.capacity === roomBookings.length) throw notValidTicketError();
+    if (room.capacity <= roomBookings.length) throw notValidTicketError();
 
     await bookingRepositories.updateBooking(roomId, bookingId);
 

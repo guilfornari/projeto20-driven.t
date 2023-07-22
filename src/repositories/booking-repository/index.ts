@@ -37,7 +37,5 @@ async function getBookingsByUserId(userId: number): Promise<Booking> {
     });
 }
 
-
-
 const bookingRepositories = { getBookings, makeBooking, getBookingsByRoomId, updateBooking, getBookingsByUserId };
 export default bookingRepositories;
