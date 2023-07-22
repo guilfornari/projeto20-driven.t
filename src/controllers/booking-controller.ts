@@ -4,9 +4,8 @@ import { AuthenticatedRequest } from '@/middlewares';
 import bookingService from '../services/booking-service';
 
 export async function getBookings(req: AuthenticatedRequest, res: Response) {
-    const { userId } = req;
     try {
-        const bookings = await bookingService.getBookings(userId);
+        const bookings = await bookingService.getBookings();
         return res.status(httpStatus.OK).send(bookings);
     } catch (error) {
         if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);

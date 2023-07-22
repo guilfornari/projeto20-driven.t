@@ -1,9 +1,11 @@
 import { Booking } from '@prisma/client';
 import { prisma } from '@/config';
+import { BookingWithRooms } from '../../protocols';
 
-async function getBookings(): Promise<Booking[]> {
+async function getBookings(): Promise<BookingWithRooms[]> {
     return prisma.booking.findMany({
-        include: {
+        select: {
+            id: true,
             Room: true
         }
     });

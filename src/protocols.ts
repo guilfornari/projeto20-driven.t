@@ -80,3 +80,16 @@ export type HotelWithRooms = {
     },
   ];
 };
+
+export type BookingWithRooms = {
+  id: number;
+  Room:
+  {
+    id: number;
+    name: string;
+    capacity: number;
+    hotelId: number;
+    createdAt: Date;
+    updatedAt: Date;
+  }
+};
