@@ -4,7 +4,7 @@ import { cleanDb, generateValidToken } from "../helpers";
 import httpStatus from "http-status";
 import { createUser } from "../factories/users-factory";
 import { createEnrollmentWithAddress, createHotels, createRooms, createTicket, createTicketTypeCorrect, getHotelsToTest, getRooms } from "../factories";
-import { createBookings, getBookingsTest } from "../factories/bookings-factory";
+import { createBookings } from "../factories/bookings-factory";
 import { TicketStatus } from "@prisma/client";
 
 beforeAll(async () => {
