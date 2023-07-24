@@ -70,6 +70,23 @@ export function createRooms(hotelId: number) {
   });
 }
 
+export function createFullRooms(hotelId: number) {
+  return prisma.room.createMany({
+    data: [
+      {
+        name: faker.datatype.string(3),
+        capacity: faker.datatype.number({ min: 1, max: 1, precision: 1 }),
+        hotelId,
+      },
+      {
+        name: faker.datatype.string(3),
+        capacity: faker.datatype.number({ min: 1, max: 5, precision: 1 }),
+        hotelId,
+      },
+    ],
+  });
+}
+
 export function getRooms() {
   return prisma.room.findMany();
 }

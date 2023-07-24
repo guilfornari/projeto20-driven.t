@@ -9,7 +9,8 @@ import { notValidTicketError } from "../../errors/not-valid-ticket-error";
 async function getBookings(): Promise<BookingWithRooms[]> {
 
     const bookings = await bookingRepositories.getBookings();
-    if (!bookings) throw notFoundError();
+
+    if (!bookings || bookings.length === 0) throw notFoundError();
 
     return bookings;
 }
