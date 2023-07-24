@@ -196,5 +196,24 @@ describe('PUT /booking/:bookingId', () => {
         expect(response.status).toEqual(httpStatus.FORBIDDEN);
     });
 
+    it('should respond with status 404 and when the room does not exist', async () => {
+
+        const user = await createUser();
+        const token = await generateValidToken(user);
+        await createHotels();
+        const hotels = await getHotelsToTest();
+        const hotelId = hotels[0].id;
+        await createRooms(hotelId);
+        const rooms = await getRooms();
+        const roomId = rooms[0].id;
+        const booking = await createBookings(user.id, roomId);
+
+        const response = await server.put(`/booking/${booking.id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({ roomId: roomId + 2 });
+
+        expect(response.status).toEqual(httpStatus.NOT_FOUND);
+    });
+
 
 });
